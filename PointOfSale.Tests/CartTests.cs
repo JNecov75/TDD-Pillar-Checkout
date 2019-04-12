@@ -7,7 +7,7 @@ namespace PointOfSale.Tests
     public class CartTests
     {
         [TestMethod]
-        public void WhenAnItemIsScannedItAddsToTheCart()
+        public void WhenAnItemIsAddedItReturnsTheName()
         {
             Cart cart = new Cart();
             Assert.AreEqual("soup", cart.Add("soup"));

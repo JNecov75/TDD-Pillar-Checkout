@@ -6,7 +6,7 @@ namespace PointOfSale.Library
     public class Cart
     {
         public string Add(string product) {
-            return "soup";
+            return product;
         }
     }
 }

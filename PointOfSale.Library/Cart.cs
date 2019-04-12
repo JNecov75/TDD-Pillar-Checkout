@@ -5,12 +5,12 @@ namespace PointOfSale.Library
 {
     public struct Item {
 
-        public Item(string name = "", string price = "") {
+        public Item(string name = "", double price = 0) {
               Name = name;
               Price = price;
         }
         public string Name {get;set;}
-        public string Price {get;set;}
+        public double Price {get;set;}
     }
 
     public class Shop
@@ -20,7 +20,14 @@ namespace PointOfSale.Library
 
         public Shop() {
             Cart = new List<Item>();
-            Inventory = new List<Item>(1);
+            Inventory = new List<Item>();
+        }
+
+        public void InitializeInventory() {
+            var soup = new Item("soup",1.89);
+            var groundBeef = new Item("ground beef",5.99);
+            AddToInventory(soup);
+            AddToInventory(groundBeef);
         }
         public void AddToInventory(Item product) {
             Inventory.Add(product);

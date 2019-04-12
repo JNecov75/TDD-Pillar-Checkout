@@ -7,11 +7,13 @@ namespace PointOfSale.Tests
     public class CartTests
     {
         [TestMethod]
-        public void WhenAnItemIsAddedItReturnsTheName()
+        public void WhenAnItemIsAddedItStoresTheName()
         {
             Cart cart = new Cart();
-            Assert.AreEqual("soup", cart.Add("soup"));
-            Assert.AreEqual("ground beef", cart.Add("ground beef"));
+            cart.Add(new Item("soup"));
+            cart.Add(new Item("ground beef"));
+            Assert.AreEqual("soup", cart.Items[0].Name);
+            Assert.AreEqual("ground beef", cart.Items[1].Name);
         }
     }
 }

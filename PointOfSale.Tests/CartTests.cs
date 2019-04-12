@@ -20,8 +20,8 @@ namespace PointOfSale.Tests
         public void WhenAnItemIsAddedItStoresThePrice()
         {
             Cart cart = new Cart();
-            cart.Add(new Item("soup", "$1.89"));
-            cart.Add(new Item("ground beef", "$5.99"));
+            cart.Add(new Item("", "$1.89"));
+            cart.Add(new Item("", "$5.99"));
             Assert.AreEqual("$1.89", cart.Items[0].Price);
             Assert.AreEqual("$5.99", cart.Items[1].Price);
         }

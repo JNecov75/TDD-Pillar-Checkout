@@ -4,10 +4,13 @@ using System.Collections.Generic;
 namespace PointOfSale.Library
 {
     public struct Item {
-        public Item(string name) {
+
+        public Item(string name = "", string price = "") {
               Name = name;
+              Price = price;
         }
         public string Name {get;set;}
+        public string Price {get;set;}
     }
 
     public class Cart

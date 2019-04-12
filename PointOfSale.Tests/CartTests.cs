@@ -25,5 +25,13 @@ namespace PointOfSale.Tests
             Assert.AreEqual("$1.89", shop.Inventory[0].Price);
             Assert.AreEqual("$5.99", shop.Inventory[1].Price);
         }
+
+        [TestMethod]
+        public void InventoryCanBeInitializedWithASetOfProducts()
+        {
+            Shop shop = new Shop();
+            shop.InitializeInventory();
+            Assert.AreEqual(2, shop.Inventory.Count);
+        }
     }
 }

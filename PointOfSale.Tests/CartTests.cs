@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PointOfSale.Library;
 
 namespace PointOfSale.Tests
 {
@@ -9,7 +10,7 @@ namespace PointOfSale.Tests
         public void WhenAnItemIsScannedItAddsToTheCart()
         {
             Cart cart = new Cart();
-            Assert.Fail();
+            Assert.AreEqual("soup", cart.items[0].name);
         }
     }
 }

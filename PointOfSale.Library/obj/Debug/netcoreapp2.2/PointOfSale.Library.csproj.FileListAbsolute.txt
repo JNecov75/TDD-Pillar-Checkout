@@ -1,9 +1,0 @@
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\bin\Debug\netcoreapp2.2\PointOfSale.Library.deps.json
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\bin\Debug\netcoreapp2.2\PointOfSale.Library.dll
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\bin\Debug\netcoreapp2.2\PointOfSale.Library.pdb
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.csprojAssemblyReference.cache
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.csproj.CoreCompileInputs.cache
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.AssemblyInfoInputs.cache
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.AssemblyInfo.cs
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.dll
-c:\Users\jneco\Documents\Projects\PillarPointOfSaleKata\PointOfSale\PointOfSale.Library\obj\Debug\netcoreapp2.2\PointOfSale.Library.pdb

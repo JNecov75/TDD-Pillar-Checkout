@@ -10,7 +10,7 @@ namespace PointOfSale.Tests
         public void WhenAnItemIsScannedItAddsToTheCart()
         {
             Cart cart = new Cart();
-            Assert.AreEqual("soup", cart.items[0].name);
+            Assert.AreEqual("soup", cart.Add("soup"));
         }
     }
 }

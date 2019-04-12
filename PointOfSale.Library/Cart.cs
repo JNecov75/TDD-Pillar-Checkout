@@ -13,15 +13,18 @@ namespace PointOfSale.Library
         public string Price {get;set;}
     }
 
-    public class Cart
+    public class Shop
     {
-        public List<Item> Items;
+        public List<Item> Cart;
+        public List<Item> Inventory;
 
-        public Cart() {
-            Items = new List<Item>();
+        public Shop() {
+            Cart = new List<Item>();
+            Inventory = new List<Item>(1);
         }
-        public void Add(Item product) {
-            Items.Add(product);
+        public void AddToInventory(Item product) {
+            Inventory.Add(product);
         }
+        
     }
 }

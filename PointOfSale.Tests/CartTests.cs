@@ -4,26 +4,26 @@ using PointOfSale.Library;
 namespace PointOfSale.Tests
 {
     [TestClass]
-    public class CartTests
+    public class ShopTests
     {
         [TestMethod]
-        public void WhenAnItemIsAddedItStoresTheName()
+        public void WhenAnItemIsAddedToInventoryItStoresTheName()
         {
-            Cart cart = new Cart();
-            cart.Add(new Item("soup"));
-            cart.Add(new Item("ground beef"));
-            Assert.AreEqual("soup", cart.Items[0].Name);
-            Assert.AreEqual("ground beef", cart.Items[1].Name);
+            Shop shop = new Shop();
+            shop.AddToInventory(new Item("soup"));
+            shop.AddToInventory(new Item("ground beef"));
+            Assert.AreEqual("soup", shop.Inventory[0].Name);
+            Assert.AreEqual("ground beef", shop.Inventory[1].Name);
         }
 
         [TestMethod]
-        public void WhenAnItemIsAddedItStoresThePrice()
+        public void WhenAnItemIsAddedToInventoryItStoresThePrice()
         {
-            Cart cart = new Cart();
-            cart.Add(new Item("", "$1.89"));
-            cart.Add(new Item("", "$5.99"));
-            Assert.AreEqual("$1.89", cart.Items[0].Price);
-            Assert.AreEqual("$5.99", cart.Items[1].Price);
+            Shop shop = new Shop();
+            shop.AddToInventory(new Item("", "$1.89"));
+            shop.AddToInventory(new Item("", "$5.99"));
+            Assert.AreEqual("$1.89", shop.Inventory[0].Price);
+            Assert.AreEqual("$5.99", shop.Inventory[1].Price);
         }
     }
 }

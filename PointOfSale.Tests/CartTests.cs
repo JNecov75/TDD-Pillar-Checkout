@@ -11,6 +11,7 @@ namespace PointOfSale.Tests
         {
             Cart cart = new Cart();
             Assert.AreEqual("soup", cart.Add("soup"));
+            Assert.AreEqual("ground beef", cart.Add("ground beef"));
         }
     }
 }

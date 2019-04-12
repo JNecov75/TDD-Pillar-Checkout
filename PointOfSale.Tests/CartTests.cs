@@ -6,32 +6,36 @@ namespace PointOfSale.Tests
     [TestClass]
     public class ShopTests
     {
+        private Shop _shop;
+
+        public ShopTests()
+        {
+            _shop = new Shop();
+        }
+
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresTheName()
         {
-            Shop shop = new Shop();
-            shop.AddToInventory(new Item("soup"));
-            shop.AddToInventory(new Item("ground beef"));
-            Assert.AreEqual("soup", shop.Inventory[0].Name);
-            Assert.AreEqual("ground beef", shop.Inventory[1].Name);
+            _shop.AddToInventory(new Item("soup"));
+            _shop.AddToInventory(new Item("ground beef"));
+            Assert.AreEqual("soup", _shop.Inventory[0].Name);
+            Assert.AreEqual("ground beef", _shop.Inventory[1].Name);
         }
 
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresThePrice()
         {
-            Shop shop = new Shop();
-            shop.AddToInventory(new Item("", 1.89));
-            shop.AddToInventory(new Item("", 5.99));
-            Assert.AreEqual(1.89, shop.Inventory[0].Price);
-            Assert.AreEqual(5.99, shop.Inventory[1].Price);
+            _shop.AddToInventory(new Item("", 1.89));
+            _shop.AddToInventory(new Item("", 5.99));
+            Assert.AreEqual(1.89, _shop.Inventory[0].Price);
+            Assert.AreEqual(5.99, _shop.Inventory[1].Price);
         }
 
         [TestMethod]
         public void InventoryCanBeInitializedWithASetOfProducts()
         {
-            Shop shop = new Shop();
-            shop.InitializeInventory();
-            Assert.AreEqual(2, shop.Inventory.Count);
+            _shop.InitializeInventory();
+            Assert.AreEqual(2, _shop.Inventory.Count);
         }
     }
 }

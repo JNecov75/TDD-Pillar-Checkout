@@ -25,8 +25,8 @@ namespace PointOfSale.Library
 
         public void InitializeInventory() {
             var tempList = new List<Item>();
-            tempList.Add(new Item("soup",1.89));
-            tempList.Add(new Item("ground beef",5.99));
+            tempList.Add(new Item("soup", 1.89));
+            tempList.Add(new Item("ground beef", 5.99));
             foreach(var Item in tempList) {
                 AddToInventory(Item);
             }

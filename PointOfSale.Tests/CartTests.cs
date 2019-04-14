@@ -47,5 +47,15 @@ namespace PointOfSale.Tests
             Assert.AreEqual(1.89, _shop.Cart[0].Price);
             Assert.AreEqual(1, _shop.Cart[0].Quantity);
         }
+
+        [TestMethod]
+        public void WhenAnItemIsAddedToCartItIncrementsQuantity()
+        {
+            _shop.InitializeInventory();
+            _shop.ScanItem("soup");
+            Assert.AreEqual(1, _shop.Cart[0].Quantity);
+            _shop.ScanItem("soup");
+            Assert.AreEqual(2, _shop.Cart[0].Quantity);
+        }
     }
 }

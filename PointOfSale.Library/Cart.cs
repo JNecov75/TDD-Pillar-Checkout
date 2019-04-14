@@ -42,7 +42,7 @@ namespace PointOfSale.Library
         public void ScanItem(string productName) {
             var newCartItem = new Item();
             newCartItem = Inventory.Find(x=> x.Name == productName);
-            newCartItem.Quantity = 1;
+            newCartItem.Quantity++;
             Cart.Add(newCartItem);
         }
     }

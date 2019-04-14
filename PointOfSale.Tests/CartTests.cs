@@ -44,8 +44,8 @@ namespace PointOfSale.Tests
             _shop.InitializeInventory();
             _shop.ScanItem("soup");
             Assert.AreEqual("soup", _shop.Cart[0].Name);
-/*             Assert.AreEqual(1.89, _shop.Cart[0].Price);
-            Assert.AreEqual(1, _shop.Cart[0].Quantity); */
+            Assert.AreEqual(1.89, _shop.Cart[0].Price);
+            Assert.AreEqual(1, _shop.Cart[0].Quantity);
         }
     }
 }

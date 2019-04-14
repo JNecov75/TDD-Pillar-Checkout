@@ -12,14 +12,14 @@ namespace PointOfSale.Library
 
     public class Item {
 
-        public Item(string name = "", double price = 0) {
+        public Item(string name = "", decimal price = 0) {
               Name = name;
               Price = price;
               Special = new Special();
         }
 
         public string Name {get; set;}
-        public double Price {get; set;}
+        public decimal Price {get; set;}
         public double Markdown {get; set;}
         public double UnitCount {get; set;}
 
@@ -39,8 +39,8 @@ namespace PointOfSale.Library
         //Inventory Methods
         public void InitializeInventory() {
             var tempList = new List<Item>();
-            tempList.Add(new Item("soup", 1.89));
-            tempList.Add(new Item("ground beef", 5.99));
+            tempList.Add(new Item("soup", 1.89m));
+            tempList.Add(new Item("ground beef", 5.99m));
             foreach(var Item in tempList) {
                 AddToInventory(Item);
             }
@@ -49,7 +49,7 @@ namespace PointOfSale.Library
             Inventory.Add(product);
         }
         
-        public void UpdatePrice(string productName, double newPrice) {
+        public void UpdatePrice(string productName, decimal newPrice) {
             Inventory.Find(x=> x.Name == productName).Price = newPrice;
         }
 
@@ -92,26 +92,26 @@ namespace PointOfSale.Library
                 Cart.Add(newCartItem);
             }
         }
-        public double GetCartTotal(string productName) {
+        public decimal GetCartTotal(string productName) {
             return GetCost(Cart.Find(x=> x.Name == productName));
         }
 
-        public double GetCartTotal() {
-            double totalCost = 0;
+        public decimal GetCartTotal() {
+            decimal totalCost = 0;
             foreach(var Item in Cart) {
                 totalCost += GetCost(Item);
             }
             return totalCost;
         }
 
-        private double GetCost(Item currItem) {
+        private decimal GetCost(Item currItem) {
             if(currItem.UnitCount > currItem.Special.NormalPricedCount && currItem.Special.IsActive) {
                 return Math.Round((
                     currItem.Special.NormalPricedCount * currItem.Price +
-                    currItem.Special.SpecialPricedCount * (currItem.Price * (1 - currItem.Special.Markdown))), 2);
+                    currItem.Special.SpecialPricedCount * (currItem.Price * (decimal)(1 - currItem.Special.Markdown))), 2);
             } else {
                 return Math.Round((
-                    currItem.UnitCount * (currItem.Price * (1 - currItem.Markdown))), 2);
+                    (decimal)currItem.UnitCount * (currItem.Price * (decimal)(1 - currItem.Markdown))), 2);
             }
             
         }

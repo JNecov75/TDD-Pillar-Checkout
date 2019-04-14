@@ -56,6 +56,16 @@ namespace PointOfSale.Tests
             Assert.IsNotNull(_shop.Inventory.Find(x=> x.Name == "ground beef").Weight);
         }
 
+        [TestMethod]
+        public void WhenAMarkdownIsAppliedItIsReflectedInInventoryPrice()
+        {
+            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            _shop.UpdateMarkdown("soup", 25);
+            Assert.AreEqual(1.41, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            _shop.UpdateMarkdown("soup", 0);
+            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+        }
+
         //Cart Tests
         [TestMethod]
         public void WhenAnItemIsScannedItAddsToTheCart()

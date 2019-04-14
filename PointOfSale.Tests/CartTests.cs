@@ -87,9 +87,9 @@ namespace PointOfSale.Tests
         public void WhenAnItemWithWeightIsAddedToCartItUpdatesTotalCostOfItem()
         {
             _shop.ScanItem("ground beef", 1);
-            Assert.AreEqual(5.99 , _shop.GetCartItemTotal("ground beef"));
+            Assert.AreEqual(5.99 , _shop.GetCartTotal("ground beef"));
             _shop.ScanItem("ground beef", 0.5);
-            Assert.AreEqual(8.98 , _shop.GetCartItemTotal("ground beef"));
+            Assert.AreEqual(8.98 , _shop.GetCartTotal("ground beef"));
         }
 
         [TestMethod]

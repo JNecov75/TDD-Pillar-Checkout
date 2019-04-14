@@ -65,7 +65,7 @@ namespace PointOfSale.Library
                 Cart.Add(newCartItem);
             }
         }
-        public double GetCartItemTotal(string productName) {
+        public double GetCartTotal(string productName) {
             return GetCost(Cart.Find(x=> x.Name == productName));
         }
         public double GetCartTotal() {

@@ -7,6 +7,8 @@ namespace PointOfSale.Tests
     public class ShopTests
     {
         private Shop _shop;
+        private Item _inventorySoup;
+        private Item _inventoryGroundBeef;
 
         public ShopTests()
         {
@@ -16,21 +18,23 @@ namespace PointOfSale.Tests
         [TestInitialize()]
         public void Startup() {
             _shop.InitializeInventory();
+            _inventorySoup = _shop.Inventory.Find(x=> x.Name == "soup");
+            _inventoryGroundBeef = _shop.Inventory.Find(x=> x.Name == "ground beef");
         }
 
         //Inventory Tests
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresTheName()
         {
-            Assert.AreEqual("soup", _shop.Inventory.Find(x=> x.Name == "soup").Name);
-            Assert.AreEqual("ground beef", _shop.Inventory.Find(x=> x.Name == "ground beef").Name);
+            Assert.AreEqual("soup", _inventorySoup.Name);
+            Assert.AreEqual("ground beef", _inventoryGroundBeef.Name);
         }
 
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresThePrice()
         {
-            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
-            Assert.AreEqual(5.99, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
+            Assert.AreEqual(1.89, _inventorySoup.Price);
+            Assert.AreEqual(5.99, _inventoryGroundBeef.Price);
         }
 
         [TestMethod]
@@ -42,22 +46,22 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void WhenAPriceChangesTheInventoryPriceUpdates()
         {
-            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(1.89, _inventorySoup.Price);
             _shop.UpdatePrice("soup", 1.99);
-            Assert.AreEqual(1.99, _shop.Inventory.Find(x=> x.Name == "soup").Price);
-            Assert.AreEqual(5.99, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
+            Assert.AreEqual(1.99, _inventorySoup.Price);
+            Assert.AreEqual(5.99, _inventoryGroundBeef.Price);
             _shop.UpdatePrice("ground beef", 6.29);
-            Assert.AreEqual(6.29, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
+            Assert.AreEqual(6.29, _inventoryGroundBeef.Price);
         }
 
         [TestMethod]
         public void WhenAMarkdownIsAppliedItIsReflectedInInventoryMarkdown()
         {
-            Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
+            Assert.AreEqual(0, _inventorySoup.Markdown);
             _shop.UpdateMarkdown("soup", 25);
-            Assert.AreEqual(.25, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
+            Assert.AreEqual(.25, _inventorySoup.Markdown);
             _shop.UpdateMarkdown("soup", 0);
-            Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
+            Assert.AreEqual(0, _inventorySoup.Markdown);
         }
 
         [TestMethod]
@@ -67,9 +71,9 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             _shop.ScanItem("soup");
             _shop.ConfigureSpecialOffer("soup", 2, 1, 100);
-            Assert.AreEqual(2, _shop.Inventory.Find(x=> x.Name == "soup").Special.NormalPricedCount);
-            Assert.AreEqual(1, _shop.Inventory.Find(x=> x.Name == "soup").Special.SpecialPricedCount);
-            Assert.AreEqual(1, _shop.Inventory.Find(x=> x.Name == "soup").Special.Markdown);
+            Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
+            Assert.AreEqual(1, _inventorySoup.Special.SpecialPricedCount);
+            Assert.AreEqual(1, _inventorySoup.Special.Markdown);
         }
 
         //Cart Tests

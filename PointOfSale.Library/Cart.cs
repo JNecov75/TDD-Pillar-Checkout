@@ -49,5 +49,13 @@ namespace PointOfSale.Library
                 newCartItem.Quantity++;
             }
         }
+
+        public double GetCartTotal() {
+            double totalCost = 0;
+            foreach(var Item in Cart) {
+                totalCost += Item.Price * Item.Quantity;
+            }
+            return totalCost;
+        }
     }
 }

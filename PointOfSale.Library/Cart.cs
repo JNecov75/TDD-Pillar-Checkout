@@ -13,6 +13,7 @@ namespace PointOfSale.Library
 
         public string Name {get; set;}
         public double Price {get; set;}
+        public double Markdown {get; set;}
         public int Quantity {get; set;}
 
         public double Weight {get; set;}
@@ -43,6 +44,10 @@ namespace PointOfSale.Library
         
         public void UpdatePrice(string productName, double newPrice) {
             Inventory.Find(x=> x.Name == productName).Price = newPrice;
+        }
+
+        public void UpdateMarkdown(string productName, double markdownPercent) {
+            Inventory.Find(x=> x.Name == productName).Markdown = markdownPercent/100;
         }
 
         //Cart Methods

@@ -59,11 +59,11 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void WhenAMarkdownIsAppliedItIsReflectedInInventoryPrice()
         {
-            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
             _shop.UpdateMarkdown("soup", 25);
-            Assert.AreEqual(1.41, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(.25, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
             _shop.UpdateMarkdown("soup", 0);
-            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
         }
 
         //Cart Tests

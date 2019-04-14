@@ -80,7 +80,7 @@ namespace PointOfSale.Library
 
         public double GetCost(Item currItem) {
             return Math.Round((
-                currItem.UnitCount * currItem.Price * (1 - currItem.Markdown)), 2);
+                currItem.UnitCount * (currItem.Price * (1 - currItem.Markdown))), 2);
         }
     }
 }

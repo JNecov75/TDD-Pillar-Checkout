@@ -111,6 +111,10 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             _shop.UpdateMarkdown("soup", 25);
             Assert.AreEqual(1.42, _shop.GetCartTotal("soup"));
+            _shop.ScanItem("soup");
+            Assert.AreEqual(2.84, _shop.GetCartTotal("soup"));
+            _shop.ScanItem("ground beef");
+            Assert.AreEqual(8.83, _shop.GetCartTotal());
         }
     }
 }

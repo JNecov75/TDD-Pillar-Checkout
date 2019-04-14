@@ -5,18 +5,15 @@ namespace PointOfSale.Library
 {
     public class Item {
 
-        public Item(string name = "", double price = 0, double weight = 0) {
+        public Item(string name = "", double price = 0) {
               Name = name;
               Price = price;
-              Weight = weight;
         }
 
         public string Name {get; set;}
         public double Price {get; set;}
         public double Markdown {get; set;}
-        public int Quantity {get; set;}
-
-        public double Weight {get; set;}
+        public double UnitCount {get; set;}
     }
 
     public class Shop
@@ -55,17 +52,17 @@ namespace PointOfSale.Library
             var newCartItem = new Item();
             newCartItem = Inventory.Find(x=> x.Name == productName);
             if(Cart.Find(x=> x.Name == newCartItem.Name) == null) {
-                newCartItem.Quantity = 1;
+                newCartItem.UnitCount = 1;
                 Cart.Add(newCartItem);
             } else {
-                newCartItem.Quantity++;
+                newCartItem.UnitCount++;
             }
         }
         
         public void ScanItem(string productName, double weight) {
             var newCartItem = new Item();
             newCartItem = Inventory.Find(x=> x.Name == productName);
-            newCartItem.Weight += weight;
+            newCartItem.UnitCount += weight;
             if(Cart.Find(x=> x.Name == newCartItem.Name) == null) {
                 Cart.Add(newCartItem);
             }
@@ -82,7 +79,8 @@ namespace PointOfSale.Library
         }
 
         public double GetCost(Item currItem) {
-            return Math.Round(((currItem.Weight != 0 ? currItem.Weight * currItem.Price : currItem.Quantity * currItem.Price)), 2);
+            return Math.Round((
+                currItem.UnitCount * currItem.Price * (1 - currItem.Markdown)), 2);
         }
     }
 }

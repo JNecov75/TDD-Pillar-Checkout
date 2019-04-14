@@ -51,12 +51,6 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void WhenAnItemIsAddedToInventoryItContainsAWeightProperty()
-        {
-            Assert.IsNotNull(_shop.Inventory.Find(x=> x.Name == "ground beef").Weight);
-        }
-
-        [TestMethod]
         public void WhenAMarkdownIsAppliedItIsReflectedInInventoryMarkdown()
         {
             Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
@@ -73,16 +67,16 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             Assert.AreEqual("soup", _shop.Cart.Find(x=> x.Name == "soup").Name);
             Assert.AreEqual(1.89, _shop.Cart.Find(x=> x.Name == "soup").Price);
-            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
+            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
         }
 
         [TestMethod]
         public void WhenAnItemIsAddedToCartItIncrementsQuantity()
         {
             _shop.ScanItem("soup");
-            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
+            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
             _shop.ScanItem("soup");
-            Assert.AreEqual(2, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
+            Assert.AreEqual(2, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
         }
 
         [TestMethod]
@@ -116,7 +110,7 @@ namespace PointOfSale.Tests
         {
             _shop.ScanItem("soup");
             _shop.UpdateMarkdown("soup", 25);
-            Assert.AreEqual(1.41, _shop.GetCartTotal("soup"));
+            Assert.AreEqual(1.42, _shop.GetCartTotal("soup"));
         }
     }
 }

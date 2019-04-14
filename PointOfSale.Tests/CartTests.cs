@@ -63,5 +63,13 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             Assert.AreEqual(1, _shop.Cart.Count);
         }
+
+                [TestMethod]
+        public void WhenAnItemIsAddedToCartItUpdatesTotalCost()
+        {
+            _shop.ScanItem("soup");
+            _shop.ScanItem("soup");
+            Assert.AreEqual("3.78", _shop.Cart.Total);
+        }
     }
 }

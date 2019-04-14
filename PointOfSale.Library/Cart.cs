@@ -25,6 +25,7 @@ namespace PointOfSale.Library
             Inventory = new List<Item>();
         }
 
+        //Inventory Methods
         public void InitializeInventory() {
             var tempList = new List<Item>();
             tempList.Add(new Item("soup", 1.89));
@@ -39,6 +40,11 @@ namespace PointOfSale.Library
             Inventory.Add(product);
         }
         
+        public void UpdatePrice(string productName, double newPrice) {
+            Inventory.Find(x=> x.Name == productName).Price = newPrice;
+        }
+
+        //Cart Methods
         public void ScanItem(string productName) {
             var newCartItem = new Item();
             newCartItem = Inventory.Find(x=> x.Name == productName);

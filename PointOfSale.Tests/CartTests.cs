@@ -79,6 +79,9 @@ namespace PointOfSale.Tests
             Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
             _shop.UpdatePrice("soup", 1.99);
             Assert.AreEqual(1.99, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(5.99, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
+            _shop.UpdatePrice("ground beef", 6.29);
+            Assert.AreEqual(6.29, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
         }
     }
 }

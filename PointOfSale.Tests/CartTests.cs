@@ -67,13 +67,18 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void SupportBuyXGetYAtZPercentOffInInventory()
         {
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
             _shop.ConfigureSpecialOffer("soup", 2, 1, 100);
             Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
             Assert.AreEqual(1, _inventorySoup.Special.SpecialPricedCount);
             Assert.AreEqual(1, _inventorySoup.Special.Markdown);
+        }
+
+        [TestMethod]
+        public void SupportBuyXAtZPercentOffInInventory()
+        {
+            _shop.ConfigureSpecialOffer("soup", 3, 25);
+            Assert.AreEqual(3, _inventorySoup.Special.SpecialPricedCount);
+            Assert.AreEqual(.25, _inventorySoup.Special.Markdown);
         }
 
         //Cart Tests

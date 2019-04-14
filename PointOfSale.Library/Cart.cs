@@ -65,6 +65,13 @@ namespace PointOfSale.Library
             currItem.Special.IsActive = true;
         }
 
+        public void ConfigureSpecialOffer(string productName, int specialQuantity, double markdown) {
+            var currItem = Inventory.Find(x=> x.Name == productName);
+            currItem.Special.SpecialPricedCount = specialQuantity;
+            currItem.Special.Markdown = markdown/100;
+            currItem.Special.IsActive = true;
+        }
+
         //Cart Methods
         public void ScanItem(string productName) {
             var newCartItem = new Item();

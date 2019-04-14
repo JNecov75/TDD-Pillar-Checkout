@@ -51,9 +51,9 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void WhenAnItemIsAddedToInventoryItStoresTheWeightForListedPrice()
+        public void WhenAnItemIsAddedToInventoryItContainsAWeightProperty()
         {
-            Assert.AreEqual(1, _shop.Inventory.Find(x=> x.Name == "ground beef").Weight);
+            Assert.IsNotNull(_shop.Inventory.Find(x=> x.Name == "ground beef").Weight);
         }
 
         //Cart Tests
@@ -86,10 +86,10 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void WhenAnItemWithWeightIsAddedToCartItUpdatesTotalCostOfItem()
         {
-            _shop.ScanItem("ground beef", 1.5);
-            Assert.AreEqual(1, _shop.GetCartItemTotal("ground beef"));
+            _shop.ScanItem("ground beef", 1);
+            Assert.AreEqual(5.99 , _shop.GetCartItemTotal("ground beef"));
             _shop.ScanItem("ground beef", 0.5);
-            Assert.AreEqual(1, _shop.GetCartItemTotal("ground beef"));
+            Assert.AreEqual(8.98 , _shop.GetCartItemTotal("ground beef"));
         }
 
         [TestMethod]

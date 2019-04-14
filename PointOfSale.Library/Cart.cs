@@ -32,7 +32,7 @@ namespace PointOfSale.Library
         public void InitializeInventory() {
             var tempList = new List<Item>();
             tempList.Add(new Item("soup", 1.89));
-            tempList.Add(new Item("ground beef", 5.99, 1));
+            tempList.Add(new Item("ground beef", 5.99));
             foreach(var Item in tempList) {
                 AddToInventory(Item);
             }
@@ -56,13 +56,28 @@ namespace PointOfSale.Library
                 newCartItem.Quantity++;
             }
         }
-
+        
+        public void ScanItem(string productName, double weight) {
+            var newCartItem = new Item();
+            newCartItem = Inventory.Find(x=> x.Name == productName);
+            newCartItem.Weight += weight;
+            if(Cart.Find(x=> x.Name == newCartItem.Name) == null) {
+                Cart.Add(newCartItem);
+            }
+        }
+        public double GetCartItemTotal(string productName) {
+            return GetCost(Cart.Find(x=> x.Name == productName));
+        }
         public double GetCartTotal() {
             double totalCost = 0;
             foreach(var Item in Cart) {
-                totalCost += Item.Price * Item.Quantity;
+                totalCost += GetCost(Item);
             }
             return totalCost;
+        }
+
+        public double GetCost(Item currItem) {
+            return Math.Round(((currItem.Weight != 0 ? currItem.Weight * currItem.Price : currItem.Quantity * currItem.Price)), 2);
         }
     }
 }

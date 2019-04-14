@@ -21,15 +21,15 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresTheName()
         {
-            Assert.AreEqual("soup", _shop.Inventory[0].Name);
-            Assert.AreEqual("ground beef", _shop.Inventory[1].Name);
+            Assert.AreEqual("soup", _shop.Inventory.Find(x=> x.Name == "soup").Name);
+            Assert.AreEqual("ground beef", _shop.Inventory.Find(x=> x.Name == "ground beef").Name);
         }
 
         [TestMethod]
         public void WhenAnItemIsAddedToInventoryItStoresThePrice()
         {
-            Assert.AreEqual(1.89, _shop.Inventory[0].Price);
-            Assert.AreEqual(5.99, _shop.Inventory[1].Price);
+            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(5.99, _shop.Inventory.Find(x=> x.Name == "ground beef").Price);
         }
 
         [TestMethod]
@@ -42,18 +42,18 @@ namespace PointOfSale.Tests
         public void WhenAnItemIsScannedAddItToTheCart()
         {
             _shop.ScanItem("soup");
-            Assert.AreEqual("soup", _shop.Cart[0].Name);
-            Assert.AreEqual(1.89, _shop.Cart[0].Price);
-            Assert.AreEqual(1, _shop.Cart[0].Quantity);
+            Assert.AreEqual("soup", _shop.Cart.Find(x=> x.Name == "soup").Name);
+            Assert.AreEqual(1.89, _shop.Cart.Find(x=> x.Name == "soup").Price);
+            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
         }
 
         [TestMethod]
         public void WhenAnItemIsAddedToCartItIncrementsQuantity()
         {
             _shop.ScanItem("soup");
-            Assert.AreEqual(1, _shop.Cart[0].Quantity);
+            Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
             _shop.ScanItem("soup");
-            Assert.AreEqual(2, _shop.Cart[0].Quantity);
+            Assert.AreEqual(2, _shop.Cart.Find(x=> x.Name == "soup").Quantity);
         }
 
         [TestMethod]
@@ -64,13 +64,21 @@ namespace PointOfSale.Tests
             Assert.AreEqual(1, _shop.Cart.Count);
         }
 
-                [TestMethod]
+        [TestMethod]
         public void WhenAnItemIsAddedToCartItUpdatesTotalCost()
         {
             _shop.ScanItem("soup");
             _shop.ScanItem("soup");
             _shop.ScanItem("ground beef");
             Assert.AreEqual(9.77, _shop.GetCartTotal());
+        }
+
+        [TestMethod]
+        public void WhenAPriceChangesTheInventoryPriceUpdates()
+        {
+            Assert.AreEqual(1.89, _shop.Inventory.Find(x=> x.Name == "soup").Price);
+            _shop.UpdatePrice("soup", 1.99);
+            Assert.AreEqual(1.99, _shop.Inventory.Find(x=> x.Name == "soup").Price);
         }
     }
 }

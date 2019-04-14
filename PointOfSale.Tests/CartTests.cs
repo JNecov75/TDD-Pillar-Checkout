@@ -57,7 +57,7 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void WhenAMarkdownIsAppliedItIsReflectedInInventoryPrice()
+        public void WhenAMarkdownIsAppliedItIsReflectedInInventoryMarkdown()
         {
             Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
             _shop.UpdateMarkdown("soup", 25);
@@ -109,6 +109,14 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             _shop.ScanItem("ground beef");
             Assert.AreEqual(9.77, _shop.GetCartTotal());
+        }
+
+        [TestMethod]
+        public void WhenAMarkdownIsAppliedItIsReflectedInCartItemPrice()
+        {
+            _shop.ScanItem("soup");
+            _shop.UpdateMarkdown("soup", 25);
+            Assert.AreEqual(1.41, _shop.GetCartTotal("soup"));
         }
     }
 }

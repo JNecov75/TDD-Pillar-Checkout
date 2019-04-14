@@ -134,6 +134,17 @@ namespace PointOfSale.Tests
             Assert.AreEqual(5.84, _shop.GetCartTotal());
         }
 
+        [TestMethod]
+        public void SupportBuyXGetYAtZPercentOffInCartTotal()
+        {
+            _shop.ConfigureSpecialOffer("soup", 2, 1, 100);
+            _shop.ScanItem("soup");
+            _shop.ScanItem("soup");
+            _shop.ScanItem("soup");
+            Assert.AreEqual(3.78, _shop.GetCartTotal("soup"));
+            _shop.ConfigureSpecialOffer("soup", 2, 1, 50);
+            Assert.AreEqual(4.72, _shop.GetCartTotal("soup"));
+        }
 
     }
 }

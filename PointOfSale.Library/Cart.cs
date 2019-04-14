@@ -7,6 +7,7 @@ namespace PointOfSale.Library
         public int NormalPricedCount {get;set;}
         public int SpecialPricedCount {get;set;}
         public double Markdown {get;set;}
+        public bool IsActive {get;set;}
     }
 
     public class Item {
@@ -61,6 +62,7 @@ namespace PointOfSale.Library
             currItem.Special.NormalPricedCount = firstQuantity;
             currItem.Special.SpecialPricedCount = secondQuantity;
             currItem.Special.Markdown = markdown/100;
+            currItem.Special.IsActive = true;
         }
 
         //Cart Methods
@@ -96,8 +98,15 @@ namespace PointOfSale.Library
         }
 
         private double GetCost(Item currItem) {
-            return Math.Round((
-                currItem.UnitCount * (currItem.Price * (1 - currItem.Markdown))), 2);
+            if(currItem.UnitCount > currItem.Special.NormalPricedCount && currItem.Special.IsActive) {
+                return Math.Round((
+                    currItem.Special.NormalPricedCount * currItem.Price +
+                    currItem.Special.SpecialPricedCount * (currItem.Price * (1 - currItem.Special.Markdown))), 2);
+            } else {
+                return Math.Round((
+                    currItem.UnitCount * (currItem.Price * (1 - currItem.Markdown))), 2);
+            }
+            
         }
     }
 }

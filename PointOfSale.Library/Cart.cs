@@ -3,17 +3,26 @@ using System.Collections.Generic;
 
 namespace PointOfSale.Library
 {
+    public class Special {
+        public int NormalPricedCount {get;set;}
+        public int SpecialPricedCount {get;set;}
+        public double Markdown {get;set;}
+    }
+
     public class Item {
 
         public Item(string name = "", double price = 0) {
               Name = name;
               Price = price;
+              Special = new Special();
         }
 
         public string Name {get; set;}
         public double Price {get; set;}
         public double Markdown {get; set;}
         public double UnitCount {get; set;}
+
+        public Special Special {get;set;}
     }
 
     public class Shop
@@ -47,6 +56,13 @@ namespace PointOfSale.Library
             Inventory.Find(x=> x.Name == productName).Markdown = markdownPercent/100;
         }
 
+        public void ConfigureSpecialOffer(string productName, int firstQuantity, int secondQuantity, double markdown) {
+            var currItem = Inventory.Find(x=> x.Name == productName);
+            currItem.Special.NormalPricedCount = firstQuantity;
+            currItem.Special.SpecialPricedCount = secondQuantity;
+            currItem.Special.Markdown = markdown/100;
+        }
+
         //Cart Methods
         public void ScanItem(string productName) {
             var newCartItem = new Item();
@@ -70,6 +86,7 @@ namespace PointOfSale.Library
         public double GetCartTotal(string productName) {
             return GetCost(Cart.Find(x=> x.Name == productName));
         }
+
         public double GetCartTotal() {
             double totalCost = 0;
             foreach(var Item in Cart) {
@@ -78,7 +95,7 @@ namespace PointOfSale.Library
             return totalCost;
         }
 
-        public double GetCost(Item currItem) {
+        private double GetCost(Item currItem) {
             return Math.Round((
                 currItem.UnitCount * (currItem.Price * (1 - currItem.Markdown))), 2);
         }

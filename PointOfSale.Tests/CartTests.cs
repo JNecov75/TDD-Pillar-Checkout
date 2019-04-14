@@ -60,6 +60,18 @@ namespace PointOfSale.Tests
             Assert.AreEqual(0, _shop.Inventory.Find(x=> x.Name == "soup").Markdown);
         }
 
+        [TestMethod]
+        public void SupportBuyXGetYAtZPercentOffInInventory()
+        {
+            _shop.ScanItem("soup");
+            _shop.ScanItem("soup");
+            _shop.ScanItem("soup");
+            _shop.ConfigureSpecialOffer("soup", 2, 1, 100);
+            Assert.AreEqual(2, _shop.Inventory.Find(x=> x.Name == "soup").Special.NormalPricedCount);
+            Assert.AreEqual(1, _shop.Inventory.Find(x=> x.Name == "soup").Special.SpecialPricedCount);
+            Assert.AreEqual(1, _shop.Inventory.Find(x=> x.Name == "soup").Special.Markdown);
+        }
+
         //Cart Tests
         [TestMethod]
         public void WhenAnItemIsScannedItAddsToTheCart()
@@ -117,5 +129,7 @@ namespace PointOfSale.Tests
             _shop.UpdateMarkdown("ground beef", 50);
             Assert.AreEqual(5.84, _shop.GetCartTotal());
         }
+
+
     }
 }

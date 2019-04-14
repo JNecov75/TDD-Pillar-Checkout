@@ -5,14 +5,17 @@ namespace PointOfSale.Library
 {
     public class Item {
 
-        public Item(string name = "", double price = 0) {
+        public Item(string name = "", double price = 0, double weight = 0) {
               Name = name;
               Price = price;
+              Weight = weight;
         }
 
-        public string Name {get;set;}
-        public double Price {get;set;}
+        public string Name {get; set;}
+        public double Price {get; set;}
         public int Quantity {get; set;}
+
+        public double Weight {get; set;}
     }
 
     public class Shop
@@ -29,12 +32,10 @@ namespace PointOfSale.Library
         public void InitializeInventory() {
             var tempList = new List<Item>();
             tempList.Add(new Item("soup", 1.89));
-            tempList.Add(new Item("ground beef", 5.99));
+            tempList.Add(new Item("ground beef", 5.99, 1));
             foreach(var Item in tempList) {
                 AddToInventory(Item);
-                Console.WriteLine(Item.Name + " added to inventory.");
             }
-            Console.WriteLine("Current Inventory Size: " + Inventory.Count);
         }
         public void AddToInventory(Item product) {
             Inventory.Add(product);

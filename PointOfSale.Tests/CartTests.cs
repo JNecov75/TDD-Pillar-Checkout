@@ -70,15 +70,15 @@ namespace PointOfSale.Tests
             _shop.ConfigureSpecialOffer("soup", 2, 1, 100);
             Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
             Assert.AreEqual(1, _inventorySoup.Special.SpecialPricedCount);
-            Assert.AreEqual(1, _inventorySoup.Special.Markdown);
+            Assert.AreEqual(1, _inventorySoup.Special.Modifier);
         }
 
         [TestMethod]
-        public void SupportBuyXAtZPercentOffInInventory()
+        public void SupportBuyXAtZPriceInInventory()
         {
-            _shop.ConfigureSpecialOffer("soup", 3, 25);
+            _shop.ConfigureSpecialOffer("soup", 3, 5);
             Assert.AreEqual(3, _inventorySoup.Special.SpecialPricedCount);
-            Assert.AreEqual(.25, _inventorySoup.Special.Markdown);
+            Assert.AreEqual(5, _inventorySoup.Special.Modifier);
         }
 
         //Cart Tests
@@ -152,15 +152,15 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void SupportBuyXAtZPercentOffInCartTotal()
+        public void SupportBuyXAtZPriceInCartTotal()
         {
-            _shop.ConfigureSpecialOffer("soup", 3, 25);
+            _shop.ConfigureSpecialOffer("soup", 3, 5);
             _shop.ScanItem("soup");
             _shop.ScanItem("soup");
             _shop.ScanItem("soup");
-            Assert.AreEqual(4.25m, _shop.GetCartTotal("soup"));
+            Assert.AreEqual(5m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");
-            Assert.AreEqual(6.14m, _shop.GetCartTotal("soup"));
+            Assert.AreEqual(6.89m, _shop.GetCartTotal("soup"));
         }
 
     }

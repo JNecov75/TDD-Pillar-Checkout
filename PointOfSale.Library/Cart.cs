@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PointOfSale.Library
 {
     public class Special {
-        public int SpecialType {get;set;}
+        public string SpecialType {get;set;}
         public int NormalPricedCount {get;set;}
         public int SpecialPricedCount {get;set;}
         public double Modifier {get;set;}
@@ -60,7 +60,7 @@ namespace PointOfSale.Library
 
         public void ConfigureSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier) {
             var currItem = Inventory.Find(x=> x.Name == productName);
-            currItem.Special.SpecialType = 1;
+            currItem.Special.SpecialType = "Buy N items get M at %X off.";
             currItem.Special.NormalPricedCount = firstQuantity;
             currItem.Special.SpecialPricedCount = secondQuantity;
             currItem.Special.Modifier = modifier/100;
@@ -69,7 +69,7 @@ namespace PointOfSale.Library
 
         public void ConfigureSpecialOffer(string productName, int specialQuantity, double modifier) {
             var currItem = Inventory.Find(x=> x.Name == productName);
-            currItem.Special.SpecialType = 2;
+            currItem.Special.SpecialType = "N for $X.";
             currItem.Special.SpecialPricedCount = specialQuantity;
             currItem.Special.Modifier = modifier;
             currItem.Special.IsActive = true;
@@ -108,28 +108,28 @@ namespace PointOfSale.Library
         }
 
         private decimal GetCost(Item currItem) {
-            if(currItem.UnitCount > currItem.Special.NormalPricedCount && currItem.Special.IsActive) {
-                return GetSpecialCost(currItem.Special.SpecialType, currItem);
+            if(currItem.Special.SpecialType == "Buy N items get M at %X off.") {
+                return GetBOGOSpecialCost(currItem);
+            } else if(currItem.Special.SpecialType == "N for $X.") {
+                return GetDiscountSpecialCost(currItem);
             } else {
                 return Math.Round((
                     (decimal)currItem.UnitCount * (currItem.Price * (decimal)(1 - currItem.Markdown))), 2);
             }
         }
 
-        private decimal GetSpecialCost(int specialType, Item currItem) {
-            if(specialType == 1) {
-                return Math.Round((
-                    currItem.Special.NormalPricedCount * currItem.Price +
-                    currItem.Special.SpecialPricedCount * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
+        private decimal GetBOGOSpecialCost(Item currItem) {
+            return Math.Round((
+                currItem.Special.NormalPricedCount * currItem.Price +
+                currItem.Special.SpecialPricedCount * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
+        }
 
-            } else if (specialType == 2) {
-                var specialCount = Math.Floor(currItem.UnitCount / currItem.Special.SpecialPricedCount);
-                var remainder = currItem.UnitCount % currItem.Special.SpecialPricedCount;
-                return Math.Round(((
-                    (decimal)remainder * currItem.Price) + 
-                    (decimal)specialCount * (decimal)currItem.Special.Modifier), 2);
-            }
-            return 0m;
+        private decimal GetDiscountSpecialCost(Item currItem) {
+            var specialCount = Math.Floor(currItem.UnitCount / currItem.Special.SpecialPricedCount);
+            var remainder = currItem.UnitCount % currItem.Special.SpecialPricedCount;
+            return Math.Round((
+                ((decimal)remainder * currItem.Price) + 
+                (decimal)specialCount * (decimal)currItem.Special.Modifier), 2);
         }
     }
 }

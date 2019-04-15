@@ -156,7 +156,9 @@ namespace PointOfSale.Tests
         {
             _shop.ConfigureSpecialOffer("soup", 3, 5);
             _shop.ScanItem("soup");
+            Assert.AreEqual(1.89m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");
+            Assert.AreEqual(3.78m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");
             Assert.AreEqual(5m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");

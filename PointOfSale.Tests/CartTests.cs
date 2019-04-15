@@ -147,8 +147,8 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             _shop.ScanItem("soup");
             Assert.AreEqual(3.78m, _shop.GetCartTotal("soup"));
-            _shop.ConfigureSpecialOffer("soup", 2, 1, 50);
-            Assert.AreEqual(4.72m, _shop.GetCartTotal("soup"));
+            _shop.ScanItem("soup");
+            Assert.AreEqual(5.67m, _shop.GetCartTotal("soup"));
         }
 
         [TestMethod]

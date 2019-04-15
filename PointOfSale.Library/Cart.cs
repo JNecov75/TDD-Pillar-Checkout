@@ -119,9 +119,14 @@ namespace PointOfSale.Library
         }
 
         private decimal GetBOGOSpecialCost(Item currItem) {
+            var itemsInASpecialOrder = currItem.Special.NormalPricedCount + currItem.Special.SpecialPricedCount;
+            var numSpecialsPurchased = Math.Floor(currItem.UnitCount / itemsInASpecialOrder);
+            var itemsNotInSpecial = currItem.UnitCount % itemsInASpecialOrder;
+            var numNormalPrice =  numSpecialsPurchased * currItem.Special.NormalPricedCount + itemsNotInSpecial;
+            var numSpecialPrice  = numSpecialsPurchased * currItem.Special.SpecialPricedCount;
             return Math.Round((
-                currItem.Special.NormalPricedCount * currItem.Price +
-                currItem.Special.SpecialPricedCount * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
+                (decimal)numNormalPrice * currItem.Price +
+                (decimal)numSpecialPrice * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
         }
 
         private decimal GetDiscountSpecialCost(Item currItem) {

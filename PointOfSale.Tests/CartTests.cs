@@ -81,6 +81,13 @@ namespace PointOfSale.Tests
             Assert.AreEqual(5, _inventorySoup.Special.Modifier);
         }
 
+        [TestMethod]
+        public void ApplyLimitForBuyXGetYAtZPercentOffSpecial()
+        {
+            _shop.ConfigureSpecialOffer("soup", 2, 1, 100, 6);
+            Assert.AreEqual(6, _inventorySoup.Special.Limit);
+        }
+
         //Cart Tests
         [TestMethod]
         public void WhenAnItemIsScannedItAddsToTheCart()

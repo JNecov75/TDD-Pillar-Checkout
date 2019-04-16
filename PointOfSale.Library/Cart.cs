@@ -8,6 +8,7 @@ namespace PointOfSale.Library
         public int NormalPricedCount {get;set;}
         public int SpecialPricedCount {get;set;}
         public double Modifier {get;set;}
+        public int Limit {get;set;}
         public bool IsActive {get;set;}
     }
 
@@ -58,12 +59,13 @@ namespace PointOfSale.Library
             Inventory.Find(x=> x.Name == productName).Markdown = markdownPercent/100;
         }
 
-        public void ConfigureSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier) {
+        public void ConfigureSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, int limit = -1) {
             var currItem = Inventory.Find(x=> x.Name == productName);
             currItem.Special.SpecialType = "Buy N items get M at %X off.";
             currItem.Special.NormalPricedCount = firstQuantity;
             currItem.Special.SpecialPricedCount = secondQuantity;
             currItem.Special.Modifier = modifier/100;
+            currItem.Special.Limit = limit;
             currItem.Special.IsActive = true;
         }
 

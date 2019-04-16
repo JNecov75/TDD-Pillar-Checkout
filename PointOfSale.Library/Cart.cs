@@ -59,7 +59,7 @@ namespace PointOfSale.Library
             Inventory.Find(x=> x.Name == productName).Markdown = markdownPercent/100;
         }
 
-        public void ConfigureSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, int limit = -1) {
+        public void ConfigureBOGOSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, int limit = -1) {
             var currItem = Inventory.Find(x=> x.Name == productName);
             currItem.Special.SpecialType = "Buy N items get M at %X off.";
             currItem.Special.NormalPricedCount = firstQuantity;
@@ -69,11 +69,12 @@ namespace PointOfSale.Library
             currItem.Special.IsActive = true;
         }
 
-        public void ConfigureSpecialOffer(string productName, int specialQuantity, double modifier) {
+        public void ConfigureDiscountSpecialOffer(string productName, int specialQuantity, double modifier, int limit = -1) {
             var currItem = Inventory.Find(x=> x.Name == productName);
             currItem.Special.SpecialType = "N for $X.";
             currItem.Special.SpecialPricedCount = specialQuantity;
             currItem.Special.Modifier = modifier;
+            currItem.Special.Limit = limit;
             currItem.Special.IsActive = true;
         }
 

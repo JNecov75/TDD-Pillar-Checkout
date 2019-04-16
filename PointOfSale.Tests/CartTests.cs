@@ -186,6 +186,14 @@ namespace PointOfSale.Tests
             Assert.AreEqual(13.23m, _shop.GetCartTotal("soup"));
         }
 
+        [TestMethod]
+        public void ApplyLimitForDiscountSpecialOfferInCartTotal()
+        {
+            _shop.ConfigureDiscountSpecialOffer("soup", 3, 5, 6);
+            Assert.AreEqual(6, _shop.Inventory.Find(x=> x.Name == "soup").Special.Limit);
+            _shop.ScanItem("soup", 9);
+            Assert.AreEqual(15.67m, _shop.GetCartTotal("soup"));
+        }
         
 
     }

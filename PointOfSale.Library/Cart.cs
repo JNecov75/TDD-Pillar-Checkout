@@ -134,17 +134,15 @@ namespace PointOfSale.Library
         }
 
         private decimal GetDiscountSpecialCost(Item currItem) {
-            double specialCount = 0;
-            if(currItem.Special.Limit > -1) {
-                specialCount = Math.Floor(currItem.Special.Limit / currItem.Special.SpecialPricedCount);
-            } else {
-                specialCount = Math.Floor(currItem.UnitCount / currItem.Special.SpecialPricedCount);
-            }
-            var limitedUnitCount = currItem.Special.Limit;
-            var remainder = currItem.UnitCount % currItem.Special.SpecialPricedCount;
+            double adjustedCount = currItem.Special.Limit > -1 ? currItem.Special.Limit : currItem.UnitCount;
+
+            double numSpecialsPurchased = Math.Floor(adjustedCount / currItem.Special.SpecialPricedCount);
+
+            double itemsNotInSpecial = currItem.UnitCount - (currItem.Special.SpecialPricedCount * numSpecialsPurchased);
+            double numNormalPrice =  itemsNotInSpecial;
             return Math.Round((
-                ((decimal)remainder * currItem.Price) + 
-                (decimal)specialCount * (decimal)currItem.Special.Modifier), 2);
+                ((decimal)numNormalPrice * currItem.Price) + 
+                (decimal)numSpecialsPurchased * (decimal)currItem.Special.Modifier), 2);
         }
     }
 }

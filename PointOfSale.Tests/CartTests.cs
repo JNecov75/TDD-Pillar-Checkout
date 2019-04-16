@@ -78,10 +78,13 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void SupportWeightBOGOSpecialOfferInInventory()
         {
-            _shop.ConfigureWeightBOGOSpecialOffer("soup", 2, 1, 100);
-            Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
-            Assert.AreEqual(1, _inventorySoup.Special.SpecialPricedCount);
-            Assert.AreEqual(1, _inventorySoup.Special.Modifier);
+            _shop.ConfigureWeightBOGOSpecialOffer(1, 1, 100);
+            Assert.AreEqual(1, _inventoryHam.Special.NormalPricedCount);
+            Assert.AreEqual(1, _inventoryHam.Special.SpecialPricedCount);
+            Assert.AreEqual(1, _inventoryHam.Special.Modifier);
+            Assert.AreEqual(1, _inventoryGroundBeef.Special.NormalPricedCount);
+            Assert.AreEqual(1, _inventoryGroundBeef.Special.SpecialPricedCount);
+            Assert.AreEqual(1, _inventoryGroundBeef.Special.Modifier);
         }
         [TestMethod]
         public void SupportDiscountSpecialOfferInInventory()
@@ -204,6 +207,16 @@ namespace PointOfSale.Tests
             Assert.AreEqual(3.78m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");
             Assert.AreEqual(5.67m, _shop.GetCartTotal("soup"));
+        }
+
+        [TestMethod]
+        public void SupportWeightBOGOSpecialOfferForHeavierItemInCartTotal()
+        {
+            _shop.ConfigureWeightBOGOSpecialOffer(1, 1, 100);
+            _shop.ScanItem("ground beef", 2);
+            Assert.AreEqual(5.99m, _shop.GetCartTotal());
+            _shop.ScanItem("ham", 2);
+            Assert.AreEqual(9.98m, _shop.GetCartTotal());
         }
 
         [TestMethod]

@@ -70,13 +70,16 @@ namespace PointOfSale.Library
             currItem.Special.Limit = limit;
         }
 
-        public void ConfigureWeightBOGOSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, double limit = -1) {
-            var currItem = Inventory.Find(x=> x.Name == productName);
-            currItem.Special.SpecialType = "Buy N of one item get M of equal or lower weight at %X off.";
-            currItem.Special.NormalPricedCount = firstQuantity;
-            currItem.Special.SpecialPricedCount = secondQuantity;
-            currItem.Special.Modifier = modifier/100;
-            currItem.Special.Limit = limit;
+        public void ConfigureWeightBOGOSpecialOffer(int firstQuantity, int secondQuantity, double modifier, double limit = -1) {
+            foreach(var currItem in Inventory) {
+                if(currItem.Weighted) {
+                    currItem.Special.SpecialType = "Buy N of one item get M of equal or lower weight at %X off.";
+                    currItem.Special.NormalPricedCount = firstQuantity;
+                    currItem.Special.SpecialPricedCount = secondQuantity;
+                    currItem.Special.Modifier = modifier/100;
+                    currItem.Special.Limit = limit;
+                }
+            }   
         }
 
         public void ConfigureDiscountSpecialOffer(string productName, int specialQuantity, double modifier, double limit = -1) {
@@ -112,8 +115,24 @@ namespace PointOfSale.Library
 
         public decimal GetCartTotal() {
             decimal totalCost = 0;
-            foreach(var Item in Cart) {
-                totalCost += GetCost(Item);
+            Item tempItem = Cart.Find(x => x.Special.SpecialType == "Buy N of one item get M of equal or lower weight at %X off.");
+            if ( tempItem != null) {
+                List<Item> weightedCartItems = new List<Item>();
+                foreach (var Item in Cart) {
+                    if(Item.Weighted && Item.Price  <= tempItem.Price) {
+                        weightedCartItems.Add(Item);
+                    } else {       
+                        totalCost += GetCost(Item);
+                    }
+                }
+
+                if (weightedCartItems != null) {
+                    totalCost += GetWeightBOGOSpecialCost(weightedCartItems);
+                }
+            } else {
+                foreach(var Item in Cart) {
+                    totalCost += GetCost(Item);
+                } 
             }
             return totalCost;
         }
@@ -121,8 +140,6 @@ namespace PointOfSale.Library
         private decimal GetCost(Item currItem) {
             if(currItem.Special.SpecialType == "Buy N items get M at %X off.") {
                 return GetBOGOSpecialCost(currItem);
-            } else if (currItem.Special.SpecialType == "Buy N of one item get M of equal or lower weight at %X off.") {
-                return GetWeightBOGOSpecialCost(currItem);
             } else if(currItem.Special.SpecialType == "N for $X.") {
                 return GetDiscountSpecialCost(currItem);
             } else {
@@ -145,18 +162,31 @@ namespace PointOfSale.Library
                 (decimal)numSpecialPrice * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
         }
 
-        private decimal GetWeightBOGOSpecialCost(Item currItem) {
-            double adjustedCount = currItem.Special.Limit > -1 ? currItem.Special.Limit : currItem.UnitCount;
-            double numItemsInASpecial = currItem.Special.NormalPricedCount + currItem.Special.SpecialPricedCount;
+        private decimal GetWeightBOGOSpecialCost(List<Item> weightedListItems) {
+            double adjustedCount = 0;
+            double numItemsInASpecial = 0;
+            double numSpecialsPurchased = 0;
+            double itemsNotInSpecial = 0;
+            double numNormalPrice =  0;
+            double numSpecialPrice = 0;
 
-            double numSpecialsPurchased = Math.Floor(adjustedCount / numItemsInASpecial);
+            decimal total = 0m;
+            foreach (var currItem in weightedListItems) {
+                adjustedCount = currItem.Special.Limit > -1 ? currItem.Special.Limit : currItem.UnitCount;
+                numItemsInASpecial = currItem.Special.NormalPricedCount + currItem.Special.SpecialPricedCount;
 
-            double itemsNotInSpecial = currItem.UnitCount - (numItemsInASpecial * numSpecialsPurchased);
-            double numNormalPrice =  numSpecialsPurchased * currItem.Special.NormalPricedCount + itemsNotInSpecial;
-            double numSpecialPrice  = numSpecialsPurchased * currItem.Special.SpecialPricedCount;
-            return Math.Round((
-                (decimal)numNormalPrice * currItem.Price +
-                (decimal)numSpecialPrice * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
+                numSpecialsPurchased = Math.Floor(adjustedCount / numItemsInASpecial);
+
+                itemsNotInSpecial = currItem.UnitCount - (numItemsInASpecial * numSpecialsPurchased);
+                numNormalPrice =  numSpecialsPurchased * currItem.Special.NormalPricedCount + itemsNotInSpecial;
+                numSpecialPrice  = numSpecialsPurchased * currItem.Special.SpecialPricedCount;
+
+                total += Math.Round((
+                    (decimal)numNormalPrice * currItem.Price +
+                    (decimal)numSpecialPrice * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
+            }
+            
+            return total;
         }
 
         private decimal GetDiscountSpecialCost(Item currItem) {

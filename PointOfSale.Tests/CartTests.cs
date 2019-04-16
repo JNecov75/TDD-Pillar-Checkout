@@ -210,13 +210,19 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void SupportWeightBOGOSpecialOfferForHeavierItemInCartTotal()
+        public void SupportWeightBOGOSpecialOfferInCartTotal()
         {
             _shop.ConfigureWeightBOGOSpecialOffer(1, 1, 100);
-            _shop.ScanItem("ground beef", 2);
+
+            _shop.ScanItem("ground beef");
+            _shop.ScanItem("ham");
             Assert.AreEqual(5.99m, _shop.GetCartTotal());
-            _shop.ScanItem("ham", 2);
-            Assert.AreEqual(9.98m, _shop.GetCartTotal());
+            _shop.ScanItem("ham");
+            _shop.ScanItem("ground beef");
+            Assert.AreEqual(11.98m, _shop.GetCartTotal());
+            _shop.ScanItem("soup");
+            Assert.AreEqual(13.87m, _shop.GetCartTotal());
+
         }
 
         [TestMethod]

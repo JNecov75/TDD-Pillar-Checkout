@@ -65,7 +65,7 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void SupportBuyXGetYAtZPercentOffInInventory()
+        public void SupportBOGOSpecialOfferInInventory()
         {
             _shop.ConfigureBOGOSpecialOffer("soup", 2, 1, 100);
             Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
@@ -74,7 +74,7 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void SupportBuyXAtZPriceInInventory()
+        public void SupportDiscountSpecialOfferInInventory()
         {
             _shop.ConfigureDiscountSpecialOffer("soup", 3, 5);
             Assert.AreEqual(3, _inventorySoup.Special.SpecialPricedCount);
@@ -82,14 +82,14 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void ApplyLimitForBuyXGetYAtZPercentOffSpecial()
+        public void ApplyLimitForBOGOSpecialOfferInInventory()
         {
             _shop.ConfigureBOGOSpecialOffer("soup", 2, 1, 100, 6);
             Assert.AreEqual(6, _inventorySoup.Special.Limit);
         }
 
         [TestMethod]
-        public void ApplyLimitForBuyXAtZPriceSpecial()
+        public void ApplyLimitForDiscountSpecialOfferInInventory()
         {
             _shop.ConfigureDiscountSpecialOffer("soup", 3, 5, 6);
             Assert.AreEqual(6, _inventorySoup.Special.Limit);
@@ -112,13 +112,14 @@ namespace PointOfSale.Tests
             Assert.AreEqual(1, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
             _shop.ScanItem("soup");
             Assert.AreEqual(2, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
+            _shop.ScanItem("soup", 2);
+            Assert.AreEqual(4, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
         }
 
         [TestMethod]
         public void WhenAnExistingItemIsAddedToCartItUpdatesItem()
         {
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
+            _shop.ScanItem("soup", 2);
             Assert.AreEqual(1, _shop.Cart.Count);
         }
 
@@ -134,8 +135,7 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void WhenAnItemIsAddedToCartItUpdatesTotalCost()
         {
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
+            _shop.ScanItem("soup", 2);
             _shop.ScanItem("ground beef");
             Assert.AreEqual(9.77m, _shop.GetCartTotal());
         }
@@ -154,19 +154,17 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
-        public void SupportBuyXGetYAtZPercentOffInCartTotal()
+        public void SupportBOGOSpecialOfferInCartTotal()
         {
             _shop.ConfigureBOGOSpecialOffer("soup", 2, 1, 100);
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
-            _shop.ScanItem("soup");
+            _shop.ScanItem("soup", 3);
             Assert.AreEqual(3.78m, _shop.GetCartTotal("soup"));
             _shop.ScanItem("soup");
             Assert.AreEqual(5.67m, _shop.GetCartTotal("soup"));
         }
 
         [TestMethod]
-        public void SupportBuyXAtZPriceInCartTotal()
+        public void SupportDiscountSpecialOfferInCartTotal()
         {
             _shop.ConfigureDiscountSpecialOffer("soup", 3, 5);
             _shop.ScanItem("soup");
@@ -178,6 +176,16 @@ namespace PointOfSale.Tests
             _shop.ScanItem("soup");
             Assert.AreEqual(6.89m, _shop.GetCartTotal("soup"));
         }
+
+        [TestMethod]
+        public void ApplyLimitForBOGOSpecialOfferInCartTotal()
+        {
+            _shop.ConfigureBOGOSpecialOffer("soup", 2, 1, 100, 6);
+            _shop.ScanItem("soup", 9);
+            Assert.AreEqual(9, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
+        }
+
+        
 
     }
 }

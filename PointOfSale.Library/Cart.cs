@@ -9,7 +9,6 @@ namespace PointOfSale.Library
         public int SpecialPricedCount {get;set;}
         public double Modifier {get;set;}
         public double Limit {get;set;}
-        public bool IsActive {get;set;}
     }
 
     public class Item {
@@ -66,7 +65,6 @@ namespace PointOfSale.Library
             currItem.Special.SpecialPricedCount = secondQuantity;
             currItem.Special.Modifier = modifier/100;
             currItem.Special.Limit = limit;
-            currItem.Special.IsActive = true;
         }
 
         public void ConfigureDiscountSpecialOffer(string productName, int specialQuantity, double modifier, double limit = -1) {
@@ -75,7 +73,6 @@ namespace PointOfSale.Library
             currItem.Special.SpecialPricedCount = specialQuantity;
             currItem.Special.Modifier = modifier;
             currItem.Special.Limit = limit;
-            currItem.Special.IsActive = true;
         }
 
         //Cart Methods

@@ -84,6 +84,15 @@ namespace PointOfSale.Library
                 Cart.Add(newCartItem);
             }
         }
+
+        public void RemoveItem(string productName, double unitCount = 1) {
+            var newCartItem = new Item();
+            newCartItem = Inventory.Find(x=> x.Name == productName);
+            newCartItem.UnitCount -= unitCount;
+            if(newCartItem.UnitCount <= 0) {
+                Cart.Remove(newCartItem);
+            }
+        }
         
         public decimal GetCartTotal(string productName) {
             return GetCost(Cart.Find(x=> x.Name == productName));

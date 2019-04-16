@@ -8,7 +8,7 @@ namespace PointOfSale.Library
         public int NormalPricedCount {get;set;}
         public int SpecialPricedCount {get;set;}
         public double Modifier {get;set;}
-        public int Limit {get;set;}
+        public double Limit {get;set;}
         public bool IsActive {get;set;}
     }
 
@@ -59,7 +59,7 @@ namespace PointOfSale.Library
             Inventory.Find(x=> x.Name == productName).Markdown = markdownPercent/100;
         }
 
-        public void ConfigureBOGOSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, int limit = -1) {
+        public void ConfigureBOGOSpecialOffer(string productName, int firstQuantity, int secondQuantity, double modifier, double limit = -1) {
             var currItem = Inventory.Find(x=> x.Name == productName);
             currItem.Special.SpecialType = "Buy N items get M at %X off.";
             currItem.Special.NormalPricedCount = firstQuantity;
@@ -69,7 +69,7 @@ namespace PointOfSale.Library
             currItem.Special.IsActive = true;
         }
 
-        public void ConfigureDiscountSpecialOffer(string productName, int specialQuantity, double modifier, int limit = -1) {
+        public void ConfigureDiscountSpecialOffer(string productName, int specialQuantity, double modifier, double limit = -1) {
             var currItem = Inventory.Find(x=> x.Name == productName);
             currItem.Special.SpecialType = "N for $X.";
             currItem.Special.SpecialPricedCount = specialQuantity;
@@ -120,18 +120,27 @@ namespace PointOfSale.Library
         }
 
         private decimal GetBOGOSpecialCost(Item currItem) {
-            var itemsInASpecialOrder = currItem.Special.NormalPricedCount + currItem.Special.SpecialPricedCount;
-            var numSpecialsPurchased = Math.Floor(currItem.UnitCount / itemsInASpecialOrder);
-            var itemsNotInSpecial = currItem.UnitCount % itemsInASpecialOrder;
-            var numNormalPrice =  numSpecialsPurchased * currItem.Special.NormalPricedCount + itemsNotInSpecial;
-            var numSpecialPrice  = numSpecialsPurchased * currItem.Special.SpecialPricedCount;
+            double adjustedCount = currItem.Special.Limit > -1 ? currItem.Special.Limit : currItem.UnitCount;
+            double numItemsInASpecial = currItem.Special.NormalPricedCount + currItem.Special.SpecialPricedCount;
+
+            double numSpecialsPurchased = Math.Floor(adjustedCount / numItemsInASpecial);
+
+            double itemsNotInSpecial = currItem.UnitCount - (numItemsInASpecial * numSpecialsPurchased);
+            double numNormalPrice =  numSpecialsPurchased * currItem.Special.NormalPricedCount + itemsNotInSpecial;
+            double numSpecialPrice  = numSpecialsPurchased * currItem.Special.SpecialPricedCount;
             return Math.Round((
                 (decimal)numNormalPrice * currItem.Price +
                 (decimal)numSpecialPrice * (currItem.Price * (decimal)(1 - currItem.Special.Modifier))), 2);
         }
 
         private decimal GetDiscountSpecialCost(Item currItem) {
-            var specialCount = Math.Floor(currItem.UnitCount / currItem.Special.SpecialPricedCount);
+            double specialCount = 0;
+            if(currItem.Special.Limit > -1) {
+                specialCount = Math.Floor(currItem.Special.Limit / currItem.Special.SpecialPricedCount);
+            } else {
+                specialCount = Math.Floor(currItem.UnitCount / currItem.Special.SpecialPricedCount);
+            }
+            var limitedUnitCount = currItem.Special.Limit;
             var remainder = currItem.UnitCount % currItem.Special.SpecialPricedCount;
             return Math.Round((
                 ((decimal)remainder * currItem.Price) + 

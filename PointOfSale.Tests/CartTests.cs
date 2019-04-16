@@ -181,8 +181,9 @@ namespace PointOfSale.Tests
         public void ApplyLimitForBOGOSpecialOfferInCartTotal()
         {
             _shop.ConfigureBOGOSpecialOffer("soup", 2, 1, 100, 6);
+            Assert.AreEqual(6, _shop.Inventory.Find(x=> x.Name == "soup").Special.Limit);
             _shop.ScanItem("soup", 9);
-            Assert.AreEqual(9, _shop.Cart.Find(x=> x.Name == "soup").UnitCount);
+            Assert.AreEqual(13.23m, _shop.GetCartTotal("soup"));
         }
 
         

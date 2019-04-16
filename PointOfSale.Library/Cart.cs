@@ -76,7 +76,7 @@ namespace PointOfSale.Library
         }
 
         //Cart Methods
-        public void ScanItem(string productName, int unitCount = 1) {
+        public void ScanItem(string productName, double unitCount = 1) {
             var newCartItem = new Item();
             newCartItem = Inventory.Find(x=> x.Name == productName);
             newCartItem.UnitCount += unitCount;
@@ -85,14 +85,6 @@ namespace PointOfSale.Library
             }
         }
         
-        public void ScanItem(string productName, double weight) {
-            var newCartItem = new Item();
-            newCartItem = Inventory.Find(x=> x.Name == productName);
-            newCartItem.UnitCount += weight;
-            if(Cart.Find(x=> x.Name == newCartItem.Name) == null) {
-                Cart.Add(newCartItem);
-            }
-        }
         public decimal GetCartTotal(string productName) {
             return GetCost(Cart.Find(x=> x.Name == productName));
         }

@@ -141,6 +141,17 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
+        public void WhenAnItemIsRemovedFromCartItUpdatesTotalCost()
+        {
+            _shop.ScanItem("soup");
+            _shop.ScanItem("ground beef");
+            Assert.AreEqual(7.88m, _shop.GetCartTotal());
+            _shop.RemoveItem("ground beef");
+            Assert.AreEqual(1.89m, _shop.GetCartTotal());
+
+        }
+
+        [TestMethod]
         public void WhenAMarkdownIsAppliedItIsReflectedInCartItemPrice()
         {
             _shop.ScanItem("soup");

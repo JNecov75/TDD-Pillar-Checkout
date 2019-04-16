@@ -9,6 +9,7 @@ namespace PointOfSale.Tests
         private Shop _shop;
         private Item _inventorySoup;
         private Item _inventoryGroundBeef;
+        private Item _inventoryHam;
 
         public ShopTests()
         {
@@ -20,6 +21,7 @@ namespace PointOfSale.Tests
             _shop.InitializeInventory();
             _inventorySoup = _shop.Inventory.Find(x=> x.Name == "soup");
             _inventoryGroundBeef = _shop.Inventory.Find(x=> x.Name == "ground beef");
+            _inventoryHam = _shop.Inventory.Find(x=> x.Name == "ham");
         }
 
         //Inventory Tests
@@ -40,7 +42,7 @@ namespace PointOfSale.Tests
         [TestMethod]
         public void InventoryCanBeInitializedWithASetOfProducts()
         {
-            Assert.AreEqual(2, _shop.Inventory.Count);
+            Assert.AreEqual(3, _shop.Inventory.Count);
         }
 
         [TestMethod]
@@ -74,12 +76,21 @@ namespace PointOfSale.Tests
         }
 
         [TestMethod]
+        public void SupportWeightBOGOSpecialOfferInInventory()
+        {
+            _shop.ConfigureWeightBOGOSpecialOffer("soup", 2, 1, 100);
+            Assert.AreEqual(2, _inventorySoup.Special.NormalPricedCount);
+            Assert.AreEqual(1, _inventorySoup.Special.SpecialPricedCount);
+            Assert.AreEqual(1, _inventorySoup.Special.Modifier);
+        }
+        [TestMethod]
         public void SupportDiscountSpecialOfferInInventory()
         {
             _shop.ConfigureDiscountSpecialOffer("soup", 3, 5);
             Assert.AreEqual(3, _inventorySoup.Special.SpecialPricedCount);
             Assert.AreEqual(5, _inventorySoup.Special.Modifier);
         }
+
 
         [TestMethod]
         public void ApplyLimitForBOGOSpecialOfferInInventory()

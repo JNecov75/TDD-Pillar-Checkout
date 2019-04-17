@@ -5,9 +5,9 @@ This is the Checkout Order Total Kata, done for my Pillar interview. The Kata ca
 >Many items are sold at a per-unit price. For example, a can of soup sells for $1.89 each.
 >
 >Some items are sold by weight. For example, 80% lean ground beef currently sells for $5.99 per pound. Bananas are currently $2.38 per pound.
-
+>
 >Each week, some items are marked down. For example, the soup could be marked down 20 cents. In this case, it would sell for $1.69 during the week. Markdown prices must always be used in favor of the per-unit price during the sale. There are laws protecting the customer from false advertising.
-
+>
 >Along with the markdowns, a set of specials are advertised each week. For example, the soup could be advertised as "buy one, get one free" or "buy two, get one half off" or "three cans for $5.00." Sometimes limits are placed on these specials. For example, "Buy two, get one free. Limit 6." Purchases not fitting the description of the special are sold at the per-unit price unless a markdown price has also been advertised.
 
 # Prerequisites
